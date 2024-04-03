@@ -20,11 +20,12 @@ struct Cell
 		shape.setSize(size);
 		shape.setPosition(pos);
 		shape.setFillColor(sf::Color::White);
+		shape.setOutlineColor(sf::Color::White);
 
-		printf("X: %.1f\tY: %.1f\n", x, y);
-		printf("Shape X: %.1f\tShape Y: %.1f\n", shape.getPosition().x, shape.getPosition().y);
-		printf("W: %.1f\tH: %.1f\n", w, h);
-		printf("Shape W: %.1f\tShape H: %.1f\n", shape.getSize().x, shape.getSize().y);
+		//printf("X: %.1f\tY: %.1f\n", x, y);
+		//printf("Shape X: %.1f\tShape Y: %.1f\n", shape.getPosition().x, shape.getPosition().y);
+		//printf("W: %.1f\tH: %.1f\n", w, h);
+		//printf("Shape W: %.1f\tShape H: %.1f\n", shape.getSize().x, shape.getSize().y);
 	}
 
 	void setPosition(sf::Vector2f pos)
@@ -44,8 +45,11 @@ struct Cell
 			&& mousePos.y > y
 			&& mousePos.y < (y + h))
 		{
-			shape.setOutlineThickness(5.f);
-			shape.setOutlineColor(sf::Color::Blue);
+			shape.setOutlineThickness(2.5f);
+		}
+		else
+		{
+			shape.setOutlineThickness(0.f);
 		}
 
 		//printf("Mouse:\n\tX: %.1f\tY: %.1f\n", mousePos.x, mousePos.y);
@@ -117,7 +121,17 @@ int main()
 
 		int randColor = rand() % 256;
 
-		Cell cell(sf::Vector2f(50.f * fmodf(col, 3), 50.f * (row / 3.f)), sf::Vector2f(50.f, 50.f));
+		float size = 100.0f;
+		float paddingX = (float)(window.getSize().x / 3);
+		float paddingY = (float)(window.getSize().y / 3);
+
+		Cell cell(
+			sf::Vector2f(
+				(size * fmodf(col, 3.f)) + paddingX,
+				(size * (row / 3.f)) + paddingY
+			),
+			sf::Vector2f(size, size)
+		);
 		cell.shape.setFillColor(sf::Color(randColor, randColor, randColor));
 		cells.push_back(cell);
 	}
@@ -131,13 +145,15 @@ int main()
 				window.close();
 
 			if (event.type == sf::Event::MouseMoved)
-				for (Cell cell : cells)
+				for (Cell &cell : cells)
+				{
 					cell.onMouseEntered(event);
+				}
 
 			if (event.type == sf::Event::MouseButtonPressed)
 			{
 				if (event.mouseButton.button == sf::Mouse::Left)
-					for (Cell cell : cells)
+					for (Cell &cell : cells)
 						cell.onMouseButtonClicked(event);
 			}
 		}
@@ -161,7 +177,7 @@ int main()
 
 		//cross.draw(window);
 
-		for (Cell cell : cells)
+		for (Cell &cell : cells)
 		{
 			window.draw(cell.shape);
 		}

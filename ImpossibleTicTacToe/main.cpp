@@ -3,11 +3,17 @@
 
 struct Cell
 {
-	sf::RectangleShape shape;
+private:
+	bool isMouseEntered = false;
+	bool isMouseClicked = false;
+
+public:
+	sf::RectangleShape backgroundShape;
 
 	SymbolTypeFlag type;
 	float x, y, w, h;
 
+	/* Empty constructor, don't use this. Use Cell(sf::Vector2f pos, sf::Vector2f size) instead */
 	Cell() {}
 
 	Cell(sf::Vector2f pos, sf::Vector2f size)
@@ -17,10 +23,10 @@ struct Cell
 		w = size.x - 2.5f;
 		h = size.y - 2.5f;
 
-		shape.setSize(sf::Vector2f(w, h));
-		shape.setPosition(sf::Vector2f(x, y));
-		shape.setFillColor(sf::Color(150, 150, 150));
-		shape.setOutlineColor(sf::Color::White);
+		backgroundShape.setSize(sf::Vector2f(w, h));
+		backgroundShape.setPosition(sf::Vector2f(x, y));
+		backgroundShape.setFillColor(sf::Color(150, 150, 150));
+		backgroundShape.setOutlineColor(sf::Color::White);
 
 		//printf("X: %.1f\tY: %.1f\n", x, y);
 		//printf("Shape X: %.1f\tShape Y: %.1f\n", shape.getPosition().x, shape.getPosition().y);
@@ -33,7 +39,7 @@ struct Cell
 		x = pos.x;
 		y = pos.y;
 
-		shape.move(pos);
+		backgroundShape.move(pos);
 	}
 
 	void onMouseEntered(const sf::Event &e)
@@ -45,11 +51,11 @@ struct Cell
 			&& mousePos.y > y
 			&& mousePos.y < (y + h))
 		{
-			shape.setOutlineThickness(2.5f);
+			isMouseEntered = true;
 		}
 		else
 		{
-			shape.setOutlineThickness(0.f);
+			isMouseEntered = false;
 		}
 
 		//printf("Mouse:\n\tX: %.1f\tY: %.1f\n", mousePos.x, mousePos.y);
@@ -64,11 +70,11 @@ struct Cell
 			&& mousePos.y > y
 			&& mousePos.y < (y + h))
 		{
-			shape.setFillColor(sf::Color(50, 50, 50));
+			isMouseClicked = true;
 		}
 		else
 		{
-			shape.setFillColor(sf::Color(150, 150, 150));
+			isMouseClicked = false;
 		}
 	}
 
@@ -76,6 +82,10 @@ struct Cell
 	{
 
 	}
+
+	bool mouseEntered() const { return this->isMouseEntered; }
+
+	bool mouseClicked() const { return this->isMouseClicked; }
 
 	//void createCross(float posX, float posY)
 	//{
@@ -107,9 +117,20 @@ struct Cell
 	//}
 };
 
+
+struct Player
+{
+	SymbolTypeFlag symbolFlag;
+
+	Player(SymbolTypeFlag type)
+	{
+		this->symbolFlag = type;
+	}
+};
+
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(800, 600), "Impossible TicTacToe");
+	sf::RenderWindow window(sf::VideoMode(800, 600), "Impossible TicTacToe", sf::Style::Titlebar | sf::Style::Close);
 	window.setVerticalSyncEnabled(true);
 
 	std::vector<Cell> cells;
@@ -163,7 +184,25 @@ int main()
 
 		for (Cell &cell : cells)
 		{
-			window.draw(cell.shape);
+			if (cell.mouseEntered())
+			{
+				cell.backgroundShape.setOutlineThickness(2.5f);
+			}
+			else
+			{
+				cell.backgroundShape.setOutlineThickness(0.f);
+			}
+
+			if (cell.mouseClicked())
+			{
+				cell.backgroundShape.setFillColor(sf::Color(50, 50, 50));
+			}
+			else
+			{
+				cell.backgroundShape.setFillColor(sf::Color(150, 150, 150));
+			}
+
+			window.draw(cell.backgroundShape);
 		}
 
 		window.display();

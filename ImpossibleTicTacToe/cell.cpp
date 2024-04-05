@@ -35,27 +35,41 @@ void Cell::insertSymbol(SymbolTypeFlag type)
 {
 	this->type = type;
 
-	printf("Cell[%.1f, %.1f] Type: %d\n", x, y, this->type);
+	printf("Cell X: %.1f | Y: %.1f | W: %.1f | H: %1f\n", x, y, w, h);
 
 	switch (this->type)
 	{
-	case SYMBOL_TYPE_CIRCLE:
-		sf::CircleShape circle((w / 2.f) - 2.5f);
-		circle.setFillColor(sf::Color(0, 0, 0, 0));
-		circle.setOutlineColor(sf::Color(50, 50, 50));
-		circle.setPosition(sf::Vector2f(x, y));
+	case SYMBOL_TYPE_CROSS:
+	{
+		CrossShape cross(sf::Vector2f(x + 2.5f, y + 2.5f), sf::Vector2f((w + x) - 2.5f, (h + y) - 2.5f));
 
-		fgShapeVertSize = circle.getPointCount();
-		
+		fgShapeVertSize = cross.getPointCount();
+
 		foregroundShape = new sf::Vertex[sizeof(sf::Vertex) * fgShapeVertSize];
 
-		for (int i = 0; i < fgShapeVertSize; i++)
+		for (size_t i = 0; i < fgShapeVertSize; i++)
 		{
-			sf::Vector2f vert = circle.getPoint(i) + sf::Vector2f(x + 2.5f, y + 2.5f);
+			sf::Vector2f vert = cross.getPoint(i);
 			foregroundShape[i] = vert;
 		}
 
 		break;
+	}
+	case SYMBOL_TYPE_CIRCLE:
+	{
+		sf::CircleShape circle((w / 2.f) - 2.5f);
+
+		fgShapeVertSize = circle.getPointCount();
+
+		foregroundShape = new sf::Vertex[sizeof(sf::Vertex) * fgShapeVertSize];
+
+		for (size_t i = 0; i < fgShapeVertSize; i++)
+		{
+			sf::Vector2f vert = circle.getPoint(i) + sf::Vector2f(x + 2.5f, y + 2.5f);
+			foregroundShape[i] = vert;
+		}
+		break;
+	}
 	}
 }
 
@@ -65,7 +79,7 @@ void Cell::draw(sf::RenderWindow &window)
 
 	if (type != 0)
 	{
-		window.draw(foregroundShape, fgShapeVertSize, sf::LineStrip);
+		window.draw(foregroundShape, fgShapeVertSize, (type == SYMBOL_TYPE_CROSS) ? sf::Lines : sf::LineStrip);
 	}
 
 	isMouseClicked = false;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "main.h"
+#include "crossshape.h"
 
 class Cell
 {
@@ -9,8 +10,6 @@ private:
 
 	bool isMouseEntered = false;
 	bool isMouseClicked = false;
-
-	void resetState();
 
 public:
 	sf::RectangleShape backgroundShape;

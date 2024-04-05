@@ -2,21 +2,26 @@
 
 #include "main.h"
 
-class CrossShape
+class CrossShape : public sf::Shape
 {
 private:
-	const static unsigned int MAX_VERTICES = 4;
+	const static size_t MAX_VERTICES = 4;
 
-	sf::Vertex lines[MAX_VERTICES];
+	sf::Vertex *lines;
 	float x, y, w, h;
 
 public:
-	CrossShape() {}
-
-	CrossShape(sf::Vector2f size);
+	CrossShape(sf::Vector2f pos, sf::Vector2f size);
+	~CrossShape();
 
 	void move(sf::Vector2f pos);
 
-	void draw(sf::RenderWindow &window) const;
+	//void draw(sf::RenderWindow &window) const;
+
+	sf::Vertex * getLines() const { return lines; }
+
+	size_t getPointCount() const override { return this->MAX_VERTICES; }
+
+	sf::Vector2f getPoint(size_t index) const override;
 };
 

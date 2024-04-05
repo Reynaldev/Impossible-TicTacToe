@@ -1,20 +1,28 @@
 #include "crossshape.h"
 
-CrossShape::CrossShape(sf::Vector2f size)
+CrossShape::CrossShape(sf::Vector2f pos, sf::Vector2f size)
 {
-	sf::Vertex newLines[MAX_VERTICES] = {
-		sf::Vertex(sf::Vector2f(size.x, size.x)),
-		sf::Vertex(sf::Vector2f(size.y, size.y)),
-		sf::Vertex(sf::Vector2f(size.y, size.x)),
-		sf::Vertex(sf::Vector2f(size.x, size.y))
-	};
+	lines = new sf::Vertex[sizeof(sf::Vertex) * MAX_VERTICES];
 
-	x = size.x;
-	y = size.x;
-	w = size.y;
+	lines[0] = sf::Vertex(sf::Vector2f(pos.x, pos.y));			// Top-left
+	lines[1] = sf::Vertex(sf::Vector2f(size.x, size.y));		// Bottom-right
+	lines[2] = sf::Vertex(sf::Vector2f(size.x, pos.y));		// Top-right
+	lines[3] = sf::Vertex(sf::Vector2f(pos.x, size.y));		// Bottom-left
+
+	x = pos.x;
+	y = pos.y;
+	w = size.x;
 	h = size.y;
 
-	memcpy_s(lines, sizeof(lines), newLines, sizeof(newLines));
+	for (size_t i = 0; i < MAX_VERTICES; i++)
+		printf("Init cross point [%.1f, %.1f]\n", lines[i].position.x, lines[i].position.y);
+
+	update();
+}
+
+CrossShape::~CrossShape()
+{
+	delete[] lines;
 }
 
 void CrossShape::move(sf::Vector2f pos)
@@ -23,9 +31,14 @@ void CrossShape::move(sf::Vector2f pos)
 	lines[1].position = sf::Vector2f(pos.x + (w / 2.0f), pos.y + (w / 2.0f));
 	lines[2].position = sf::Vector2f(pos.x + (w / 2.0f), pos.y - (w / 2.0f));
 	lines[3].position = sf::Vector2f(pos.x - (w / 2.0f), pos.y + (w / 2.0f));
+
+	update();
 }
 
-void CrossShape::draw(sf::RenderWindow &window) const
+sf::Vector2f CrossShape::getPoint(size_t index) const
 {
-	window.draw(lines, MAX_VERTICES, sf::Lines);
+	for (size_t i = 0; i < MAX_VERTICES; i++)
+		printf("Get cross point [%.1f, %.1f]\n", lines[i].position.x, lines[i].position.y);
+
+	return sf::Vector2f(lines[index].position.x, lines[index].position.y);
 }

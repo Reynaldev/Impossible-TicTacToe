@@ -47,9 +47,10 @@ int main()
 	}
 
 	// Player
-	Player player("Dummy", SYMBOL_TYPE_CIRCLE);
+	Player player("Dummy", SYMBOL_TYPE_CROSS);
 
 	// CPU
+	//CrossShape cross(sf::Vector2f(0, 0), sf::Vector2f(100, 100));
 
 	while (window.isOpen())
 	{
@@ -93,18 +94,17 @@ int main()
 				cell.backgroundShape.setOutlineThickness(0.f);
 			}
 
-			if (cell.mouseClicked())
+			if (cell.mouseClicked() && !cell.isFilled())
 			{
 				//cell.backgroundShape.setFillColor(sf::Color(50, 50, 50));
 				cell.insertSymbol(player.symbol);
 			}
-			else
-			{
-				//cell.backgroundShape.setFillColor(sf::Color(150, 150, 150));
-			}
 
 			cell.draw(window);
 		}
+
+		//window.draw(cross.getLines(), cross.getPointCount(), sf::Lines);
+		//cross.draw(window);
 
 		window.display();
 	}

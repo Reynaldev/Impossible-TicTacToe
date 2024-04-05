@@ -27,6 +27,8 @@ public:
 
 	void draw(sf::RenderWindow &window);
 
+	void reset();
+
 	void onMouseEntered(const sf::Event &e);
 	void onMouseButtonClicked(const sf::Event &e);
 

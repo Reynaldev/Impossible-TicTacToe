@@ -20,6 +20,8 @@ Cell::Cell(sf::Vector2f pos, sf::Vector2f size)
 
 Cell::~Cell()
 {
+	reset();
+
 	delete[] foregroundShape;
 }
 
@@ -84,6 +86,20 @@ void Cell::draw(sf::RenderWindow &window)
 	}
 
 	isMouseClicked = false;
+}
+
+void Cell::reset()
+{
+	isMouseClicked = false;
+	isMouseEntered = false;
+
+	if (type != 0)
+	{
+		fgShapeVertSize = NULL;
+		type = NULL;
+
+		delete[] foregroundShape;
+	}
 }
 
 void Cell::onMouseEntered(const sf::Event &e)

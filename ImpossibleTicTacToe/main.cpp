@@ -57,7 +57,10 @@ int main()
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
+			{
 				window.close();
+				exit(0);
+			}
 
 			if (event.type == sf::Event::MouseMoved)
 				for (Cell &cell : cells)
@@ -70,6 +73,13 @@ int main()
 				if (event.mouseButton.button == sf::Mouse::Left)
 					for (Cell &cell : cells)
 						cell.onMouseButtonClicked(event);
+			}
+
+			if (event.type == sf::Event::KeyPressed)
+			{
+				if (event.key.scancode == sf::Keyboard::Scan::R)
+					for (Cell &cell : cells)
+						cell.reset();
 			}
 		}
 

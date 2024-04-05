@@ -18,6 +18,11 @@ Cell::Cell(sf::Vector2f pos, sf::Vector2f size)
 	//printf("Shape W: %.1f\tShape H: %.1f\n", shape.getSize().x, shape.getSize().y);
 }
 
+Cell::~Cell()
+{
+	delete[] foregroundShape;
+}
+
 void Cell::setPosition(sf::Vector2f pos)
 {
 	x = pos.x;
@@ -30,22 +35,40 @@ void Cell::insertSymbol(SymbolTypeFlag type)
 {
 	this->type = type;
 
+	printf("Cell[%.1f, %.1f] Type: %d\n", x, y, this->type);
+
 	switch (this->type)
 	{
 	case SYMBOL_TYPE_CIRCLE:
+		sf::CircleShape circle((w / 2.f) - 2.5f);
+		circle.setFillColor(sf::Color(0, 0, 0, 0));
+		circle.setOutlineColor(sf::Color(50, 50, 50));
+		circle.setPosition(sf::Vector2f(x, y));
+
+		fgShapeVertSize = circle.getPointCount();
+		
+		foregroundShape = new sf::Vertex[sizeof(sf::Vertex) * fgShapeVertSize];
+
+		for (int i = 0; i < fgShapeVertSize; i++)
+		{
+			sf::Vector2f vert = circle.getPoint(i) + sf::Vector2f(x + 2.5f, y + 2.5f);
+			foregroundShape[i] = vert;
+		}
+
 		break;
 	}
 }
 
-void Cell::draw(sf::RenderWindow &window) const
+void Cell::draw(sf::RenderWindow &window)
 {
 	window.draw(backgroundShape);
 
-	switch (type)
+	if (type != 0)
 	{
-	case SYMBOL_TYPE_CIRCLE:
-		break;
+		window.draw(foregroundShape, fgShapeVertSize, sf::LineStrip);
 	}
+
+	isMouseClicked = false;
 }
 
 void Cell::onMouseEntered(const sf::Event &e)
@@ -75,9 +98,5 @@ void Cell::onMouseButtonClicked(const sf::Event &e)
 		&& mousePos.y < (y + h))
 	{
 		isMouseClicked = true;
-	}
-	else
-	{
-		isMouseClicked = false;
 	}
 }

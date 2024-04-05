@@ -13,7 +13,6 @@ public:
 		this->symbol = type;
 		memcpy_s(this->name, sizeof(this->name), username, sizeof(char) * 8);
 	}
-
 };
 
 int main()
@@ -82,6 +81,11 @@ int main()
 		{
 			if (cell.mouseEntered())
 			{
+				if (cell.isFilled())
+					cell.backgroundShape.setOutlineColor(sf::Color(200, 0, 0));
+				else
+					cell.backgroundShape.setOutlineColor(sf::Color::White);
+
 				cell.backgroundShape.setOutlineThickness(2.5f);
 			}
 			else
@@ -92,14 +96,14 @@ int main()
 			if (cell.mouseClicked())
 			{
 				//cell.backgroundShape.setFillColor(sf::Color(50, 50, 50));
-				//cell.insertSymbol(player.symbol);
+				cell.insertSymbol(player.symbol);
 			}
 			else
 			{
 				//cell.backgroundShape.setFillColor(sf::Color(150, 150, 150));
 			}
 
-			window.draw(cell.backgroundShape);
+			cell.draw(window);
 		}
 
 		window.display();

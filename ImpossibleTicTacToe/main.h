@@ -11,6 +11,6 @@ typedef unsigned int SymbolTypeFlag;
 
 enum SymbolType
 {
-	SYMBOL_TYPE_CROSS,
+	SYMBOL_TYPE_CROSS = 1,
 	SYMBOL_TYPE_CIRCLE
 };

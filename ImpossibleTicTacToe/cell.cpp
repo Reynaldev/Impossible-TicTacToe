@@ -35,8 +35,6 @@ void Cell::insertSymbol(SymbolTypeFlag type)
 {
 	this->type = type;
 
-	printf("Cell X: %.1f | Y: %.1f | W: %.1f | H: %1f\n", x, y, w, h);
-
 	switch (this->type)
 	{
 	case SYMBOL_TYPE_CROSS:
@@ -59,15 +57,18 @@ void Cell::insertSymbol(SymbolTypeFlag type)
 	{
 		sf::CircleShape circle((w / 2.f) - 2.5f);
 
-		fgShapeVertSize = circle.getPointCount();
+		fgShapeVertSize = circle.getPointCount() + 1;
 
 		foregroundShape = new sf::Vertex[sizeof(sf::Vertex) * fgShapeVertSize];
 
-		for (size_t i = 0; i < fgShapeVertSize; i++)
+		for (size_t i = 0; i < (fgShapeVertSize - 1); i++)
 		{
 			sf::Vector2f vert = circle.getPoint(i) + sf::Vector2f(x + 2.5f, y + 2.5f);
 			foregroundShape[i] = vert;
 		}
+
+		foregroundShape[fgShapeVertSize - 1] = foregroundShape[0];
+
 		break;
 	}
 	}

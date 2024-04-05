@@ -16,12 +16,10 @@ public:
 
 	void move(sf::Vector2f pos);
 
-	//void draw(sf::RenderWindow &window) const;
+	sf::Vector2f getPoint(size_t index) const override;
 
 	sf::Vertex * getLines() const { return lines; }
 
 	size_t getPointCount() const override { return this->MAX_VERTICES; }
-
-	sf::Vector2f getPoint(size_t index) const override;
 };
 

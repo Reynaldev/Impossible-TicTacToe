@@ -14,9 +14,6 @@ CrossShape::CrossShape(sf::Vector2f pos, sf::Vector2f size)
 	w = size.x;
 	h = size.y;
 
-	for (size_t i = 0; i < MAX_VERTICES; i++)
-		printf("Init cross point [%.1f, %.1f]\n", lines[i].position.x, lines[i].position.y);
-
 	update();
 }
 
@@ -37,8 +34,5 @@ void CrossShape::move(sf::Vector2f pos)
 
 sf::Vector2f CrossShape::getPoint(size_t index) const
 {
-	for (size_t i = 0; i < MAX_VERTICES; i++)
-		printf("Get cross point [%.1f, %.1f]\n", lines[i].position.x, lines[i].position.y);
-
 	return sf::Vector2f(lines[index].position.x, lines[index].position.y);
 }

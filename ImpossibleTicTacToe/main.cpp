@@ -1,19 +1,7 @@
 #include "main.h"
 #include "cell.h"
 #include "crossshape.h"
-
-struct Player
-{
-public:
-	SymbolTypeFlag symbol;
-	char name[8];
-
-	Player(const char *username, SymbolTypeFlag type)
-	{
-		this->symbol = type;
-		memcpy_s(this->name, sizeof(this->name), username, sizeof(char) * 8);
-	}
-};
+#include "player.h"
 
 int main()
 {
@@ -84,8 +72,6 @@ int main()
 		}
 
 		window.clear(sf::Color(200, 200, 200));
-
-		//cross.draw(window);
 
 		for (Cell &cell : cells)
 		{

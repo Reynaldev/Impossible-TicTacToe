@@ -95,7 +95,7 @@ void Cell::reset()
 
 	if (type != 0)
 	{
-		fgShapeVertSize = NULL;
+		fgShapeVertSize = 0;
 		type = NULL;
 
 		delete[] foregroundShape;

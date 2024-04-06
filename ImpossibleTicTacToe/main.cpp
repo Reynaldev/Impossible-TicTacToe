@@ -2,6 +2,7 @@
 #include "cell.h"
 #include "crossshape.h"
 #include "player.h"
+#include "gamemanager.h"
 
 int main()
 {
@@ -37,11 +38,7 @@ int main()
 	// Players init
 	SymbolTypeFlag randSym = (rand() % 2) + 1;
 
-	// Player
-	Player player("Dummy", (SymbolType)randSym, (PlayerType) PLAYER_HUMAN);
-
-	// CPU
-	Player cpu("CPU", (SymbolType)randSym, (PlayerType) PLAYER_AI);
+	GameManager game(new Player("Dummy", (SymbolType)randSym, PLAYER_HUMAN), new Player("CPU", (SymbolType)randSym, PLAYER_AI));
 
 	while (window.isOpen())
 	{
@@ -77,27 +74,33 @@ int main()
 
 		for (Cell &cell : cells)
 		{
-			if (cell.mouseEntered())
+			Player &player = *game.getCurrentPlayer();
+			if (player.type == PLAYER_HUMAN)
 			{
-				if (cell.isFilled())
-					cell.backgroundShape.setOutlineColor(sf::Color(200, 0, 0));
+				if (cell.mouseEntered())
+				{
+					if (cell.isFilled())
+						cell.backgroundShape.setOutlineColor(sf::Color(200, 0, 0));
+					else
+						cell.backgroundShape.setOutlineColor(sf::Color::White);
+
+					cell.backgroundShape.setOutlineThickness(2.5f);
+				}
 				else
-					cell.backgroundShape.setOutlineColor(sf::Color::White);
+				{
+					cell.backgroundShape.setOutlineThickness(0.f);
+				}
 
-				cell.backgroundShape.setOutlineThickness(2.5f);
-			}
-			else
-			{
-				cell.backgroundShape.setOutlineThickness(0.f);
-			}
-
-			if (cell.mouseClicked() && !cell.isFilled())
-			{
-				cell.insertSymbol(player.symbol);
+				if (cell.mouseClicked() && !cell.isFilled())
+				{
+					cell.insertSymbol(player.symbol);
+				}
 			}
 
 			cell.draw(window);
 		}
+
+		game.nextTurn();
 
 		window.display();
 	}

@@ -21,8 +21,8 @@ int main()
 		int randColor = rand() % 256;
 
 		float size = 100.0f;
-		float paddingX = (float)(window.getSize().x / 3);
-		float paddingY = (float)(window.getSize().y / 3);
+		float paddingX = (float)((window.getSize().x - size) / 3);
+		float paddingY = (float)((window.getSize().y - size) / 3);
 
 		Cell cell(
 			sf::Vector2f(
@@ -34,10 +34,14 @@ int main()
 		cells.push_back(cell);
 	}
 
+	// Players init
+	SymbolTypeFlag randSym = (rand() % 2) + 1;
+
 	// Player
-	Player player("Dummy", SYMBOL_TYPE_CROSS);
+	Player player("Dummy", (SymbolType)randSym);
 
 	// CPU
+	Player cpu("CPU", (SymbolType)randSym);
 
 	while (window.isOpen())
 	{
@@ -91,9 +95,7 @@ int main()
 
 			if (cell.mouseClicked() && !cell.isFilled())
 			{
-				//cell.backgroundShape.setFillColor(sf::Color(50, 50, 50));
-				//cell.insertSymbol(player.symbol);
-				cell.insertSymbol((rand() % 2) + 1);
+				cell.insertSymbol(player.symbol);
 			}
 
 			cell.draw(window);

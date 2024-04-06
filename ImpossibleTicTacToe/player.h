@@ -2,6 +2,12 @@
 
 #include "main.h"
 
+enum PlayerState
+{
+	PLAYER_ONE,
+	PLAYER_TWO
+};
+
 class Player
 {
 public:

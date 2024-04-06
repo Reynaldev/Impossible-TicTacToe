@@ -8,6 +8,8 @@
 #define CELL_SIZE 150
 
 typedef unsigned int SymbolTypeFlag;
+typedef unsigned int PlayerTypeFlag;
+typedef unsigned int PlayerStateFlag;
 
 enum SymbolType
 {

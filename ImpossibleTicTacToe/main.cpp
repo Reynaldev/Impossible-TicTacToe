@@ -38,10 +38,10 @@ int main()
 	SymbolTypeFlag randSym = (rand() % 2) + 1;
 
 	// Player
-	Player player("Dummy", (SymbolType)randSym);
+	Player player("Dummy", (SymbolType)randSym, (PlayerType) PLAYER_HUMAN);
 
 	// CPU
-	Player cpu("CPU", (SymbolType)randSym);
+	Player cpu("CPU", (SymbolType)randSym, (PlayerType) PLAYER_AI);
 
 	while (window.isOpen())
 	{
@@ -56,9 +56,7 @@ int main()
 
 			if (event.type == sf::Event::MouseMoved)
 				for (Cell &cell : cells)
-				{
 					cell.onMouseEntered(event);
-				}
 
 			if (event.type == sf::Event::MouseButtonPressed)
 			{

@@ -21,7 +21,7 @@ public:
 
 	void nextTurn();
 
-	Player* getCurrentPlayer() const { return &players[currentPlayer]; }
+	Player getCurrentPlayer() const { return players[currentPlayer]; }
 	PlayerState getCurrentPlayerState() const { return this->playerState; }
 
 };

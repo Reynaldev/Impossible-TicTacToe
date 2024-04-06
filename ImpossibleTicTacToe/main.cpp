@@ -74,8 +74,8 @@ int main()
 
 		for (Cell &cell : cells)
 		{
-			Player &player = *game.getCurrentPlayer();
-			if (player.type == PLAYER_HUMAN)
+			Player *player = &game.getCurrentPlayer();
+			if (player->type == PLAYER_HUMAN)
 			{
 				if (cell.mouseEntered())
 				{
@@ -93,14 +93,12 @@ int main()
 
 				if (cell.mouseClicked() && !cell.isFilled())
 				{
-					cell.insertSymbol(player.symbol);
+					cell.insertSymbol(player->symbol);
 				}
 			}
 
 			cell.draw(window);
 		}
-
-		game.nextTurn();
 
 		window.display();
 	}

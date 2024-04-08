@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <array>
+#include <string>
 
 #include <SFML/Graphics.hpp>
 

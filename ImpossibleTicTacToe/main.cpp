@@ -7,9 +7,31 @@
 int main()
 {
 	// Init
-	// Wwndow
+	// Window
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Impossible TicTacToe", sf::Style::Titlebar | sf::Style::Close);
 	window.setVerticalSyncEnabled(true);
+
+	// UI
+	// Font
+	sf::Font font;
+	if (!font.loadFromFile("assets/fonts/Minecraft.ttf"))
+	{
+		printf("Cannot load font file\n");
+		return 1;
+	}
+
+	sf::Text txtBig, txtNormal;
+
+	txtBig.setFont(font);
+	txtNormal.setFont(font);
+
+	txtBig.setCharacterSize(32);
+	txtNormal.setCharacterSize(24);
+
+	txtBig.setFillColor(sf::Color::White);
+	txtNormal.setFillColor(sf::Color::White);
+
+	txtBig.setStyle(sf::Text::Bold);
 
 	// Cell drawings
 	std::vector<Cell> cells;
@@ -72,10 +94,11 @@ int main()
 
 		window.clear(sf::Color(200, 200, 200));
 
+		Player &player = *game.getCurrentPlayer();
+
 		for (Cell &cell : cells)
 		{
-			Player *player = &game.getCurrentPlayer();
-			if (player->type == PLAYER_HUMAN)
+			if (player.type == PLAYER_HUMAN)
 			{
 				if (cell.mouseEntered())
 				{
@@ -93,12 +116,68 @@ int main()
 
 				if (cell.mouseClicked() && !cell.isFilled())
 				{
-					cell.insertSymbol(player->symbol);
+					cell.insertSymbol(player.symbol);
 				}
 			}
 
 			cell.draw(window);
 		}
+
+		// Win text label
+		txtBig.setString("Win");
+		txtBig.setPosition(
+			sf::Vector2f((window.getSize().x / 2.f) - (txtBig.getLocalBounds().width + 50.f), 0.f)
+		);
+
+		window.draw(txtBig);
+
+		// Win score label
+		txtNormal.setString(std::to_string(game.getWinScore()));
+		txtNormal.setPosition(
+			sf::Vector2f((window.getSize().x / 2.f) - (txtBig.getLocalBounds().width / 2.f + 50.f), 50.f)
+		);
+
+		window.draw(txtNormal);
+
+		// Tie text label
+		txtBig.setString("Tie");
+		txtBig.setPosition(
+			sf::Vector2f((window.getSize().x - txtBig.getLocalBounds().width) / 2.f, 0.f)
+		);
+
+		window.draw(txtBig);
+
+		// Tie score label
+		txtNormal.setString(std::to_string(game.getTieScore()));
+		txtNormal.setPosition(
+			sf::Vector2f((window.getSize().x - txtNormal.getLocalBounds().width) / 2.f, 50.f)
+		);
+
+		window.draw(txtNormal);
+
+		// Lose text label
+		txtBig.setString("Lose");
+		txtBig.setPosition(
+			sf::Vector2f((window.getSize().x / 2.f) + 50.f, 0.f)
+		);
+
+		window.draw(txtBig);
+
+		// Lose score label
+		txtNormal.setString(std::to_string(game.getLoseScore()));
+		txtNormal.setPosition(
+			sf::Vector2f((window.getSize().x / 2.f) + (txtBig.getGlobalBounds().width / 2.f + 50.f), 50.f)
+		);
+
+		window.draw(txtNormal);
+
+		// Player's turn text label
+		txtBig.setString("It's " + std::string(player.name) + " turn");
+		txtBig.setPosition(
+			sf::Vector2f((window.getSize().x - txtBig.getLocalBounds().width) / 2.f, 100.f)
+		);
+		
+		window.draw(txtBig);
 
 		window.display();
 	}

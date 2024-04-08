@@ -31,8 +31,6 @@ int main()
 	txtBig.setFillColor(sf::Color::White);
 	txtNormal.setFillColor(sf::Color::White);
 
-	txtBig.setStyle(sf::Text::Bold);
-
 	// Cell drawings
 	std::vector<Cell> cells;
 
@@ -123,58 +121,28 @@ int main()
 			cell.draw(window);
 		}
 
-		// Win text label
-		txtBig.setString("Win");
-		txtBig.setPosition(
-			sf::Vector2f((window.getSize().x / 2.f) - (txtBig.getLocalBounds().width + 50.f), 0.f)
-		);
-
-		window.draw(txtBig);
-
 		// Win score label
-		txtNormal.setString(std::to_string(game.getWinScore()));
-		txtNormal.setPosition(
-			sf::Vector2f((window.getSize().x / 2.f) - (txtBig.getLocalBounds().width / 2.f + 50.f), 50.f)
-		);
+		txtNormal.setString("Win: " + std::to_string(game.getWinScore()));
+		txtNormal.setPosition(sf::Vector2f(0.f, 0.f));
 
 		window.draw(txtNormal);
-
-		// Tie text label
-		txtBig.setString("Tie");
-		txtBig.setPosition(
-			sf::Vector2f((window.getSize().x - txtBig.getLocalBounds().width) / 2.f, 0.f)
-		);
-
-		window.draw(txtBig);
 
 		// Tie score label
-		txtNormal.setString(std::to_string(game.getTieScore()));
-		txtNormal.setPosition(
-			sf::Vector2f((window.getSize().x - txtNormal.getLocalBounds().width) / 2.f, 50.f)
-		);
+		txtNormal.setString("Tie: " + std::to_string(game.getTieScore()));
+		txtNormal.setPosition(sf::Vector2f(0.f, 50.f));
 
 		window.draw(txtNormal);
 
-		// Lose text label
-		txtBig.setString("Lose");
-		txtBig.setPosition(
-			sf::Vector2f((window.getSize().x / 2.f) + 50.f, 0.f)
-		);
-
-		window.draw(txtBig);
-
 		// Lose score label
-		txtNormal.setString(std::to_string(game.getLoseScore()));
-		txtNormal.setPosition(
-			sf::Vector2f((window.getSize().x / 2.f) + (txtBig.getGlobalBounds().width / 2.f + 50.f), 50.f)
-		);
+		txtNormal.setString("Lose: " + std::to_string(game.getLoseScore()));
+		txtNormal.setPosition(sf::Vector2f(0.f, 100.f));
 
 		window.draw(txtNormal);
 
 		// Player's turn text label
 		txtBig.setString("It's " + std::string(player.name) + " turn");
 		txtBig.setPosition(
-			sf::Vector2f((window.getSize().x - txtBig.getLocalBounds().width) / 2.f, 100.f)
+			sf::Vector2f(((window.getSize().x - txtBig.getLocalBounds().width) / 2.f) - 15.f, 0.f)
 		);
 		
 		window.draw(txtBig);

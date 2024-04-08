@@ -14,8 +14,6 @@ private:
 
 	Player *players = new Player[sizeof(Player) * MAX_PLAYERS];
 
-	PlayerState playerState;
-
 	bool nextTurn = false;
 	bool isFinished = false;
 
@@ -32,7 +30,6 @@ public:
 	void update(sf::RenderWindow &window);
 
 	Player getCurrentPlayer() const { return players[currentPlayer]; }
-	PlayerState getCurrentPlayerState() const { return playerState; }
 
 	int getWinScore() const { return winScore; }
 	int getTieScore() const { return tieScore; }

@@ -61,7 +61,7 @@ bool hasEmptyGrid(Cell *cells, int &pos)
             return true;
         }
 
-        tPos = (tPos + 1) % arrLen(winPatterns);
+        tPos = (tPos + 1) % 24;
     }
 
     return false;
@@ -77,7 +77,7 @@ void solve(Cell *cells, SymbolSign sym, SymbolSign oppSym, int &pos)
     int offScore = 0;
     int defScore = 0;
 
-    for (int i = 0; i < arrLen(winPatterns); i += 3)
+    for (int i = 0; i < 24; i += 3)
     {
         int tempScore = 0;
 

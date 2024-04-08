@@ -18,6 +18,3 @@ enum SymbolSign
 	SYMBOL_SIGN_CROSS,
 	SYMBOL_SIGN_CIRCLE
 };
-
-template <typename T>
-constexpr int arrLen(T *arr) { return sizeof(arr) / sizeof(*arr); }

@@ -2,12 +2,6 @@
 
 #include "main.h"
 
-enum PlayerState
-{
-	PLAYER_ONE,
-	PLAYER_TWO
-};
-
 enum PlayerType
 {
 	PLAYER_HUMAN,

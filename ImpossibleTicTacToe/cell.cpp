@@ -91,7 +91,7 @@ void Cell::draw(sf::RenderWindow &window)
 {
 	window.draw(backgroundShape);
 
-	if (type != 0)
+	if (type != SYMBOL_TYPE_EMPTY)
 	{
 		window.draw(foregroundShape, fgShapeVertSize, (type == SYMBOL_TYPE_CROSS) ? sf::Lines : sf::LineStrip);
 	}
@@ -104,10 +104,10 @@ void Cell::reset()
 	isMouseClicked = false;
 	isMouseEntered = false;
 
-	if (type != 0)
+	if (type != SYMBOL_TYPE_EMPTY)
 	{
 		fgShapeVertSize = 0;
-		type = NULL;
+		type = SYMBOL_TYPE_EMPTY;
 
 		delete[] foregroundShape;
 	}

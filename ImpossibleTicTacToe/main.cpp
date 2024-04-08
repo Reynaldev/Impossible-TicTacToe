@@ -3,6 +3,8 @@
 
 int main()
 {
+	srand(time(0));
+
 	// Init
 	// Window
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Impossible TicTacToe", sf::Style::Titlebar | sf::Style::Close);
@@ -29,9 +31,7 @@ int main()
 	txtNormal.setFillColor(sf::Color::White);
 
 	// Players init
-	SymbolTypeFlag randSym = (rand() % 2) + 1;
-
-	GameManager game(new Player("Dummy", (SymbolType)randSym, PLAYER_HUMAN), new Player("CPU", (SymbolType)randSym, PLAYER_AI), window);
+	GameManager game(new Player("Dummy", PLAYER_HUMAN), new Player("CPU", PLAYER_AI), window);
 
 	while (window.isOpen())
 	{

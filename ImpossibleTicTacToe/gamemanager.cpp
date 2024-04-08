@@ -2,10 +2,15 @@
 
 GameManager::GameManager(Player *playerOne, Player *playerTwo, const sf::RenderWindow &window)
 {
+	SymbolTypeFlag sym = rand();
+
+	playerOne->symbol = (sym % 2);
+	playerTwo->symbol = (sym + 1) % 2;
+
+	currentPlayer = (playerTwo->symbol == SYMBOL_TYPE_CROSS);
+
 	players[0] = *playerOne;
 	players[1] = *playerTwo;
-
-	currentPlayer = 0;
 
 	delete playerOne;
 	delete playerTwo;
@@ -13,14 +18,13 @@ GameManager::GameManager(Player *playerOne, Player *playerTwo, const sf::RenderW
 	// Cell drawings
 	for (int i = 0; i < 9; i++)
 	{
+		const static float size = 100.0f;
+		const static float paddingX = (float)((window.getSize().x - size) / 3);
+		const static float paddingY = (float)((window.getSize().y - size) / 3);
+
 		float row = (float)(floor(i / 3) * 3);
 		float col = (float)(row + i);
 
-		int randColor = rand() % 256;
-
-		float size = 100.0f;
-		float paddingX = (float)((window.getSize().x - size) / 3);
-		float paddingY = (float)((window.getSize().y - size) / 3);
 
 		cells[i].setPosition(
 			sf::Vector2f(
@@ -54,43 +58,74 @@ void GameManager::eventInput(const sf::Event &event)
 	if (event.type == sf::Event::KeyPressed)
 	{
 		if (event.key.scancode == sf::Keyboard::Scan::R)
+		{
 			for (Cell &cell : cells)
 				cell.reset();
-	}
-}
 
-void GameManager::nextTurn()
-{
-	currentPlayer = (currentPlayer + 1) % MAX_PLAYERS;
+			isFinished = false;
+		}
+	}
 }
 
 void GameManager::update(sf::RenderWindow &window)
 {
+	if (nextTurn)
+	{
+		currentPlayer = (currentPlayer + 1) % MAX_PLAYERS;
+		nextTurn = false;
+	}
+
+	// AI
+	if ((players[currentPlayer].type == PLAYER_AI) && (!isFinished))
+	{
+		int index = rand() % 10;
+
+		while (cells[index].isFilled())
+			index = rand() % 10;
+
+		cells[index].insertSymbol(players[currentPlayer].symbol);
+
+		nextTurn = true;
+	}
+
+	// To keep track of filled cells
+	int filledCells = 0;
+
+	// Draw the cells
 	for (Cell &cell : cells)
 	{
-		if (players[currentPlayer].type == PLAYER_HUMAN)
+		if (!isFinished)
 		{
-			if (cell.mouseEntered())
+			if (players[currentPlayer].type == PLAYER_HUMAN)
 			{
-				if (cell.isFilled())
-					cell.backgroundShape.setOutlineColor(sf::Color(200, 0, 0));
+				if (cell.mouseEntered())
+				{
+					if (cell.isFilled())
+						cell.backgroundShape.setOutlineColor(sf::Color(200, 0, 0));
+					else
+						cell.backgroundShape.setOutlineColor(sf::Color::White);
+
+					cell.backgroundShape.setOutlineThickness(2.5f);
+				}
 				else
-					cell.backgroundShape.setOutlineColor(sf::Color::White);
+				{
+					cell.backgroundShape.setOutlineThickness(0.f);
+				}
 
-				cell.backgroundShape.setOutlineThickness(2.5f);
-			}
-			else
-			{
-				cell.backgroundShape.setOutlineThickness(0.f);
-			}
+				if (cell.mouseClicked() && !cell.isFilled())
+				{
+					cell.insertSymbol(players[currentPlayer].symbol);
 
-			if (cell.mouseClicked() && !cell.isFilled())
-			{
-				cell.insertSymbol(players[currentPlayer].symbol);
-				nextTurn();
+					nextTurn = true;
+				}
 			}
 		}
 
+		if (cell.isFilled())
+			filledCells++;
+
 		cell.draw(window);
 	}
+
+	isFinished = (filledCells == 9);
 }

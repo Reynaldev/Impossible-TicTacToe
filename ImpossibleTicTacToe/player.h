@@ -24,6 +24,6 @@ public:
 	/* Default constructor. Use Player(const char *username, SymbolTypeFlag symbol, PlayerTypeFlag type) instead */
 	Player() {}
 
-	Player(const char *username, SymbolTypeFlag symbol, PlayerTypeFlag type);
+	Player(const char *username, PlayerTypeFlag type);
 };
 

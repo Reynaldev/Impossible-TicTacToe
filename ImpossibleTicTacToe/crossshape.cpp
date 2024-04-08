@@ -6,8 +6,8 @@ CrossShape::CrossShape(sf::Vector2f pos, sf::Vector2f size)
 
 	lines[0] = sf::Vertex(sf::Vector2f(pos.x, pos.y));			// Top-left
 	lines[1] = sf::Vertex(sf::Vector2f(size.x, size.y));		// Bottom-right
-	lines[2] = sf::Vertex(sf::Vector2f(size.x, pos.y));		// Top-right
-	lines[3] = sf::Vertex(sf::Vector2f(pos.x, size.y));		// Bottom-left
+	lines[2] = sf::Vertex(sf::Vector2f(size.x, pos.y));			// Top-right
+	lines[3] = sf::Vertex(sf::Vector2f(pos.x, size.y));			// Bottom-left
 
 	x = pos.x;
 	y = pos.y;

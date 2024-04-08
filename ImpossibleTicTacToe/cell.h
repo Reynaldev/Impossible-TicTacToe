@@ -6,7 +6,7 @@
 class Cell
 {
 private:
-	SymbolTypeFlag type;
+	SymbolTypeFlag type = SYMBOL_TYPE_EMPTY;
 
 	bool isMouseEntered = false;
 	bool isMouseClicked = false;
@@ -38,6 +38,6 @@ public:
 	bool mouseEntered() const { return this->isMouseEntered; }
 	bool mouseClicked() const { return this->isMouseClicked; }
 
-	bool isFilled() const { return (this->type != 0); }
+	bool isFilled() const { return (this->type != SYMBOL_TYPE_EMPTY); }
 };
 

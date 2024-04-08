@@ -10,13 +10,16 @@ private:
 	const static size_t MAX_PLAYERS = 2;
 
 private:
+	Cell cells[9];
+
 	Player *players = new Player[sizeof(Player) * MAX_PLAYERS];
 
 	PlayerState playerState;
 
-	Cell cells[9];
+	bool nextTurn = false;
+	bool isFinished = false;
 
-	unsigned int currentPlayer;
+	int currentPlayer;
 
 	int winScore, tieScore, loseScore;
 
@@ -25,8 +28,6 @@ public:
 	~GameManager();
 
 	void eventInput(const sf::Event &event);
-
-	void nextTurn();
 
 	void update(sf::RenderWindow &window);
 

@@ -8,15 +8,15 @@
 
 #define CELL_SIZE 150
 
-typedef int SymbolTypeFlag;
+typedef int SymbolSignFlag;
 typedef int PlayerTypeFlag;
 typedef int PlayerStateFlag;
 
-enum SymbolType
+enum SymbolSign
 {
-	SYMBOL_TYPE_EMPTY = -1,
-	SYMBOL_TYPE_CROSS,
-	SYMBOL_TYPE_CIRCLE
+	SYMBOL_SIGN_EMPTY = -1,
+	SYMBOL_SIGN_CROSS,
+	SYMBOL_SIGN_CIRCLE
 };
 
 template <typename T>

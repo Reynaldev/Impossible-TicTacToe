@@ -1,13 +1,14 @@
 #include "gamemanager.h"
+#include "ai.h"
 
 GameManager::GameManager(Player *playerOne, Player *playerTwo, const sf::RenderWindow &window)
 {
-	SymbolTypeFlag sym = rand();
+	SymbolSignFlag sym = rand();
 
 	playerOne->symbol = (sym % 2);
 	playerTwo->symbol = (sym + 1) % 2;
 
-	currentPlayer = (playerTwo->symbol == SYMBOL_TYPE_CROSS);
+	currentPlayer = (playerTwo->symbol == SYMBOL_SIGN_CROSS);
 
 	players[0] = *playerOne;
 	players[1] = *playerTwo;
@@ -78,12 +79,13 @@ void GameManager::update(sf::RenderWindow &window)
 	// AI
 	if ((players[currentPlayer].type == PLAYER_AI) && (!isFinished))
 	{
-		int index = rand() % 10;
+		solve(cells, (SymbolSign)players[currentPlayer].symbol);
+		//int index = rand() % 10;
 
-		while (cells[index].isFilled())
-			index = rand() % 10;
+		//while (cells[index].isFilled())
+		//	index = rand() % 10;
 
-		cells[index].insertSymbol(players[currentPlayer].symbol);
+		//cells[index].insertSymbol(players[currentPlayer].symbol);
 
 		nextTurn = true;
 	}

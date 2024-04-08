@@ -44,13 +44,13 @@ void Cell::setSize(sf::Vector2f size)
 	backgroundShape.setSize(sf::Vector2f(w, h));
 }
 
-void Cell::insertSymbol(SymbolTypeFlag type)
+void Cell::insertSymbol(SymbolSignFlag sym)
 {
-	this->type = type;
+	this->sym = sym;
 
-	switch (this->type)
+	switch (this->sym)
 	{
-	case SYMBOL_TYPE_CROSS:
+	case SYMBOL_SIGN_CROSS:
 	{
 		CrossShape cross(sf::Vector2f(x + 2.5f, y + 2.5f), sf::Vector2f((w + x) - 2.5f, (h + y) - 2.5f));
 
@@ -66,7 +66,7 @@ void Cell::insertSymbol(SymbolTypeFlag type)
 
 		break;
 	}
-	case SYMBOL_TYPE_CIRCLE:
+	case SYMBOL_SIGN_CIRCLE:
 	{
 		sf::CircleShape circle((w / 2.f) - 2.5f);
 
@@ -91,9 +91,9 @@ void Cell::draw(sf::RenderWindow &window)
 {
 	window.draw(backgroundShape);
 
-	if (type != SYMBOL_TYPE_EMPTY)
+	if (sym != SYMBOL_SIGN_EMPTY)
 	{
-		window.draw(foregroundShape, fgShapeVertSize, (type == SYMBOL_TYPE_CROSS) ? sf::Lines : sf::LineStrip);
+		window.draw(foregroundShape, fgShapeVertSize, (sym == SYMBOL_SIGN_CROSS) ? sf::Lines : sf::LineStrip);
 	}
 
 	isMouseClicked = false;
@@ -104,10 +104,10 @@ void Cell::reset()
 	isMouseClicked = false;
 	isMouseEntered = false;
 
-	if (type != SYMBOL_TYPE_EMPTY)
+	if (sym != SYMBOL_SIGN_EMPTY)
 	{
 		fgShapeVertSize = 0;
-		type = SYMBOL_TYPE_EMPTY;
+		sym = SYMBOL_SIGN_EMPTY;
 
 		delete[] foregroundShape;
 	}

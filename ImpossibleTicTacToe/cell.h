@@ -6,7 +6,7 @@
 class Cell
 {
 private:
-	SymbolTypeFlag type = SYMBOL_TYPE_EMPTY;
+	SymbolSignFlag sym = SYMBOL_SIGN_EMPTY;
 
 	bool isMouseEntered = false;
 	bool isMouseClicked = false;
@@ -26,7 +26,7 @@ public:
 	void setPosition(sf::Vector2f pos);
 	void setSize(sf::Vector2f size);
 
-	void insertSymbol(SymbolTypeFlag type);
+	void insertSymbol(SymbolSignFlag sym);
 
 	void draw(sf::RenderWindow &window);
 
@@ -38,6 +38,8 @@ public:
 	bool mouseEntered() const { return this->isMouseEntered; }
 	bool mouseClicked() const { return this->isMouseClicked; }
 
-	bool isFilled() const { return (this->type != SYMBOL_TYPE_EMPTY); }
+	bool isFilled() const { return (this->sym != SYMBOL_SIGN_EMPTY); }
+
+	SymbolSignFlag getSymbol() const { return sym; }
 };
 

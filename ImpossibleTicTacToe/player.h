@@ -18,7 +18,7 @@ class Player
 {
 public:
 	PlayerTypeFlag type;
-	SymbolTypeFlag symbol;
+	SymbolSignFlag symbol;
 	char name[8];
 
 	/* Default constructor. Use Player(const char *username, SymbolTypeFlag symbol, PlayerTypeFlag type) instead */

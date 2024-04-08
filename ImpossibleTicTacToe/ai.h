@@ -35,8 +35,8 @@ bool isWinning(Cell *cells, SymbolSign c, int i)
 
     // Vertical
     if (cells[i].getSymbol() == c
-        && cells[(i + 3) % 10].getSymbol() == c
-        && cells[(i + 6) % 10].getSymbol() == c)
+        && cells[(i + 3) % 9].getSymbol() == c
+        && cells[(i + 6) % 9].getSymbol() == c)
         return true;
 
     // Horizontal
@@ -50,7 +50,7 @@ bool isWinning(Cell *cells, SymbolSign c, int i)
     return false;
 }
 
-bool hasEmptyGrid(Cell *cells, int pos)
+bool hasEmptyGrid(Cell *cells, int &pos)
 {
     int tPos = pos;
     while (tPos < (pos + 3))
@@ -67,7 +67,7 @@ bool hasEmptyGrid(Cell *cells, int pos)
     return false;
 }
 
-void solve(Cell *cells, SymbolSign sym)
+void solve(Cell *cells, SymbolSign sym, SymbolSign oppSym, int &pos)
 {
     // CPU win algorithm
     int nextPos = -1;
@@ -105,9 +105,9 @@ void solve(Cell *cells, SymbolSign sym)
         tempScore = 0;
 
         // Deffense checking
-        tempScore = (cells[winPatterns[i]].getSymbol() != sym) ? tempScore + 1 : tempScore;
-        tempScore = (cells[winPatterns[i + 1]].getSymbol() != sym) ? tempScore + 1 : tempScore;
-        tempScore = (cells[winPatterns[i + 2]].getSymbol() != sym) ? tempScore + 1 : tempScore;
+        tempScore = (cells[winPatterns[i]].getSymbol() == oppSym) ? tempScore + 1 : tempScore;
+        tempScore = (cells[winPatterns[i + 1]].getSymbol() == oppSym) ? tempScore + 1 : tempScore;
+        tempScore = (cells[winPatterns[i + 2]].getSymbol() == oppSym) ? tempScore + 1 : tempScore;
 
         if (tempScore == 2)
         {
@@ -129,23 +129,24 @@ void solve(Cell *cells, SymbolSign sym)
 
     if (nextPos == -1)
     {
-        int pos = 4;
-        int max = pos + 10;
+        int npos = 4;
+        int max = npos + 9;
 
-        while (pos < max)
+        while (npos < max)
         {
-            if (cells[pos % 10].getSymbol() == SYMBOL_SIGN_EMPTY && (pos % 10) % 2 == 0)
+            if (cells[npos % 9].getSymbol() == SYMBOL_SIGN_EMPTY && (npos % 9) % 2 == 0)
             {
-                nextPos = pos % 10;
+                nextPos = npos % 9;
                 break;
             }
 
-            if (cells[pos % 10].getSymbol() == SYMBOL_SIGN_EMPTY)
-                nextPos = pos % 10;
+            if (cells[npos % 9].getSymbol() == SYMBOL_SIGN_EMPTY)
+                nextPos = npos % 9;
 
-            pos++;
+            npos++;
         }
     }
 
     cells[nextPos].insertSymbol(sym);
+    pos = nextPos;
 }

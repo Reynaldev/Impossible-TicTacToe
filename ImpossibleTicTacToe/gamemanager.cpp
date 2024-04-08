@@ -70,63 +70,69 @@ void GameManager::eventInput(const sf::Event &event)
 
 void GameManager::update(sf::RenderWindow &window)
 {
-	if (nextTurn)
+	static int nextPos = 0;
+	static SymbolSign nextSym = SYMBOL_SIGN_EMPTY;
+
+	if (isWinning(cells, (SymbolSign)players[currentPlayer].symbol, nextPos))
 	{
-		currentPlayer = (currentPlayer + 1) % MAX_PLAYERS;
-		nextTurn = false;
+		printf("%s won!", players[currentPlayer].name);
+		isFinished = true;
 	}
 
-	// AI
-	if ((players[currentPlayer].type == PLAYER_AI) && (!isFinished))
+	if (!isFinished)
 	{
-		solve(cells, (SymbolSign)players[currentPlayer].symbol);
-		//int index = rand() % 10;
+		if (nextTurn)
+		{
+			currentPlayer = (currentPlayer + 1) % MAX_PLAYERS;
+			nextTurn = false;
+		}
 
-		//while (cells[index].isFilled())
-		//	index = rand() % 10;
+		// AI
+		if ((players[currentPlayer].type == PLAYER_AI))
+		{
+			solve(cells, (SymbolSign)players[currentPlayer].symbol, (SymbolSign)(players[(currentPlayer + 1) % 2].symbol), nextPos);
+			nextSym = (SymbolSign)players[currentPlayer].symbol;
 
-		//cells[index].insertSymbol(players[currentPlayer].symbol);
-
-		nextTurn = true;
+			nextTurn = true;
+		}
 	}
 
 	// To keep track of filled cells
 	int filledCells = 0;
 
 	// Draw the cells
-	for (Cell &cell : cells)
+	for (int i = 0; i < 9; i++)
 	{
-		if (!isFinished)
+		if (players[currentPlayer].type == PLAYER_HUMAN)
 		{
-			if (players[currentPlayer].type == PLAYER_HUMAN)
+			if (cells[i].mouseEntered())
 			{
-				if (cell.mouseEntered())
-				{
-					if (cell.isFilled())
-						cell.backgroundShape.setOutlineColor(sf::Color(200, 0, 0));
-					else
-						cell.backgroundShape.setOutlineColor(sf::Color::White);
-
-					cell.backgroundShape.setOutlineThickness(2.5f);
-				}
+				if (cells[i].isFilled())
+					cells[i].backgroundShape.setOutlineColor(sf::Color(200, 0, 0));
 				else
-				{
-					cell.backgroundShape.setOutlineThickness(0.f);
-				}
+					cells[i].backgroundShape.setOutlineColor(sf::Color::White);
 
-				if (cell.mouseClicked() && !cell.isFilled())
-				{
-					cell.insertSymbol(players[currentPlayer].symbol);
+				cells[i].backgroundShape.setOutlineThickness(2.5f);
+			}
+			else
+			{
+				cells[i].backgroundShape.setOutlineThickness(0.f);
+			}
 
-					nextTurn = true;
-				}
+			if (cells[i].mouseClicked() && !cells[i].isFilled() && !isFinished)
+			{
+				cells[i].insertSymbol(players[currentPlayer].symbol);
+				nextPos = i;
+				nextSym = (SymbolSign)players[currentPlayer].symbol;
+
+				nextTurn = true;
 			}
 		}
 
-		if (cell.isFilled())
+		if (cells[i].isFilled())
 			filledCells++;
 
-		cell.draw(window);
+		cells[i].draw(window);
 	}
 
 	isFinished = (filledCells == 9);

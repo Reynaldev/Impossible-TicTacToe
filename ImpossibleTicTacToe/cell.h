@@ -19,10 +19,13 @@ public:
 
 	float x, y, w, h;
 
+	Cell();
 	Cell(sf::Vector2f pos, sf::Vector2f size);
 	~Cell();
 
 	void setPosition(sf::Vector2f pos);
+	void setSize(sf::Vector2f size);
+
 	void insertSymbol(SymbolTypeFlag type);
 
 	void draw(sf::RenderWindow &window);

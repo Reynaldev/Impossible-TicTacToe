@@ -1,7 +1,4 @@
 #include "main.h"
-#include "cell.h"
-#include "crossshape.h"
-#include "player.h"
 #include "gamemanager.h"
 
 int main()

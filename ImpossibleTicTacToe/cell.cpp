@@ -1,5 +1,13 @@
 #include "cell.h"
 
+Cell::Cell()
+{
+	backgroundShape.setSize(sf::Vector2f(w, h));
+	backgroundShape.setPosition(sf::Vector2f(x, y));
+	backgroundShape.setFillColor(sf::Color(150, 150, 150));
+	backgroundShape.setOutlineColor(sf::Color::White);
+}
+
 Cell::Cell(sf::Vector2f pos, sf::Vector2f size)
 {
 	x = pos.x + 2.5f;
@@ -11,11 +19,6 @@ Cell::Cell(sf::Vector2f pos, sf::Vector2f size)
 	backgroundShape.setPosition(sf::Vector2f(x, y));
 	backgroundShape.setFillColor(sf::Color(150, 150, 150));
 	backgroundShape.setOutlineColor(sf::Color::White);
-
-	//printf("X: %.1f\tY: %.1f\n", x, y);
-	//printf("Shape X: %.1f\tShape Y: %.1f\n", shape.getPosition().x, shape.getPosition().y);
-	//printf("W: %.1f\tH: %.1f\n", w, h);
-	//printf("Shape W: %.1f\tShape H: %.1f\n", shape.getSize().x, shape.getSize().y);
 }
 
 Cell::~Cell()
@@ -31,6 +34,14 @@ void Cell::setPosition(sf::Vector2f pos)
 	y = pos.y;
 
 	backgroundShape.move(pos);
+}
+
+void Cell::setSize(sf::Vector2f size)
+{
+	w = size.x - 2.5f;
+	h = size.y - 2.5f;
+
+	backgroundShape.setSize(sf::Vector2f(w, h));
 }
 
 void Cell::insertSymbol(SymbolTypeFlag type)

@@ -14,7 +14,7 @@ private:
 
 	PlayerState playerState;
 
-	std::vector<Cell> cells;
+	Cell cells[9];
 
 	unsigned int currentPlayer;
 

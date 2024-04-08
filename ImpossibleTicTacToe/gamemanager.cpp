@@ -22,14 +22,14 @@ GameManager::GameManager(Player *playerOne, Player *playerTwo, const sf::RenderW
 		float paddingX = (float)((window.getSize().x - size) / 3);
 		float paddingY = (float)((window.getSize().y - size) / 3);
 
-		Cell cell(
+		cells[i].setPosition(
 			sf::Vector2f(
 				(size * fmodf(col, 3.f)) + paddingX,
 				(size * (row / 3.f)) + paddingY
-			),
-			sf::Vector2f(size, size)
+			)
 		);
-		cells.push_back(cell);
+
+		cells[i].setSize(sf::Vector2f(size, size));
 	}
 }
 
@@ -87,6 +87,7 @@ void GameManager::update(sf::RenderWindow &window)
 			if (cell.mouseClicked() && !cell.isFilled())
 			{
 				cell.insertSymbol(players[currentPlayer].symbol);
+				nextTurn();
 			}
 		}
 

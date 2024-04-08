@@ -2,6 +2,7 @@
 
 #include "main.h"
 #include "player.h"
+#include "cell.h"
 
 class GameManager
 {
@@ -13,17 +14,23 @@ private:
 
 	PlayerState playerState;
 
+	std::vector<Cell> cells;
+
 	unsigned int currentPlayer;
 
 	int winScore, tieScore, loseScore;
 
 public:
-	GameManager(Player *playerOne, Player *playerTwo);
+	GameManager(Player *playerOne, Player *playerTwo, const sf::RenderWindow &window);
 	~GameManager();
+
+	void eventInput(const sf::Event &event);
 
 	void nextTurn();
 
-	Player* getCurrentPlayer() const { return &players[currentPlayer]; }
+	void update(sf::RenderWindow &window);
+
+	Player getCurrentPlayer() const { return players[currentPlayer]; }
 	PlayerState getCurrentPlayerState() const { return playerState; }
 
 	int getWinScore() const { return winScore; }

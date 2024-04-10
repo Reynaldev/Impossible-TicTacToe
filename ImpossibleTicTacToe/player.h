@@ -15,6 +15,9 @@ public:
 	SymbolSignFlag symbol;
 	char name[8];
 
+	int scoreWin = 0;
+	int scoreLose = 0;
+
 	/* Default constructor. Use Player(const char *username, SymbolTypeFlag symbol, PlayerTypeFlag type) instead */
 	Player() {}
 

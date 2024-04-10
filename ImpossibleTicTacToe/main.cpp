@@ -31,7 +31,7 @@ int main()
 	txtNormal.setFillColor(sf::Color::White);
 
 	// Players init
-	GameManager game(new Player("Dummy", PLAYER_HUMAN), new Player("CPU", PLAYER_AI), window);
+	GameManager game(new Player("Player", PLAYER_HUMAN), new Player("CPU", PLAYER_AI), window);
 
 	while (window.isOpen())
 	{
@@ -51,20 +51,41 @@ int main()
 
 		game.update(window);
 
+
+		/* Player one */
+		// Player name label
+		txtNormal.setString(game.getPlayer(0).name);
+		txtNormal.setPosition(sf::Vector2f((window.getSize().x - txtNormal.getLocalBounds().width), 0.f));
+
+		window.draw(txtNormal);
+
 		// Win score label
-		txtNormal.setString("Win: " + std::to_string(game.getWinScore()));
+		txtNormal.setString(std::to_string(game.getPlayer(0).scoreWin) + " :Win");
+		txtNormal.setPosition(sf::Vector2f((window.getSize().x - txtNormal.getLocalBounds().width), 50.f));
+
+		window.draw(txtNormal);
+
+		// Lose score label
+		txtNormal.setString(std::to_string(game.getPlayer(0).scoreLose) + " :Lose");
+		txtNormal.setPosition(sf::Vector2f((window.getSize().x - txtNormal.getLocalBounds().width), 100.f));
+
+		window.draw(txtNormal);
+
+		/* Player two */
+		// Player name label
+		txtNormal.setString(game.getPlayer(1).name);
 		txtNormal.setPosition(sf::Vector2f(0.f, 0.f));
 
 		window.draw(txtNormal);
 
-		// Tie score label
-		txtNormal.setString("Tie: " + std::to_string(game.getTieScore()));
+		// Win score label
+		txtNormal.setString("Win: " + std::to_string(game.getPlayer(1).scoreWin));
 		txtNormal.setPosition(sf::Vector2f(0.f, 50.f));
 
 		window.draw(txtNormal);
 
 		// Lose score label
-		txtNormal.setString("Lose: " + std::to_string(game.getLoseScore()));
+		txtNormal.setString("Lose: " + std::to_string(game.getPlayer(1).scoreLose));
 		txtNormal.setPosition(sf::Vector2f(0.f, 100.f));
 
 		window.draw(txtNormal);

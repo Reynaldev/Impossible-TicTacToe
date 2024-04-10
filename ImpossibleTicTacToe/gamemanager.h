@@ -19,8 +19,6 @@ private:
 
 	int currentPlayer;
 
-	int winScore, tieScore, loseScore;
-
 public:
 	GameManager(Player *playerOne, Player *playerTwo, const sf::RenderWindow &window);
 	~GameManager();
@@ -29,11 +27,11 @@ public:
 
 	void update(sf::RenderWindow &window);
 
+	// Return the current player
 	Player getCurrentPlayer() const { return players[currentPlayer]; }
 
-	int getWinScore() const { return winScore; }
-	int getTieScore() const { return tieScore; }
-	int getLoseScore() const { return loseScore; }
+	// Return the player by index. Not bound checking.
+	Player getPlayer(int index) const { return players[index]; }
 
 };
 

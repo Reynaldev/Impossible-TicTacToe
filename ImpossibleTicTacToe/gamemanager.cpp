@@ -79,7 +79,9 @@ void GameManager::update(sf::RenderWindow &window)
 		{
 			if (isWinning(cells, (SymbolSign)players[currentPlayer].symbol, nextPos))
 			{
-				printf("%s won!", players[currentPlayer].name);
+				players[currentPlayer].scoreWin++;
+				players[(currentPlayer + 1) % 2].scoreLose++;
+				
 				isFinished = true;
 			}
 
@@ -122,23 +124,33 @@ void GameManager::update(sf::RenderWindow &window)
 			cells[i].backgroundShape.setOutlineThickness(0.f);
 		}
 
-		if (players[currentPlayer].type == PLAYER_HUMAN)
+		if (!isFinished)
 		{
-			if (cells[i].mouseClicked() && !cells[i].isFilled() && !isFinished)
+			if (players[currentPlayer].type == PLAYER_HUMAN)
 			{
-				cells[i].insertSymbol(players[currentPlayer].symbol);
-				nextPos = i;
-				nextSym = (SymbolSign)players[currentPlayer].symbol;
+				if (cells[i].mouseClicked() && !cells[i].isFilled())
+				{
+					cells[i].insertSymbol(players[currentPlayer].symbol);
+					nextPos = i;
+					nextSym = (SymbolSign)players[currentPlayer].symbol;
 
-				nextTurn = true;
+					nextTurn = true;
+				}
 			}
+
+			if (cells[i].isFilled())
+				filledCells++;
 		}
 
-		if (cells[i].isFilled())
-			filledCells++;
 
 		cells[i].draw(window);
 	}
 
-	isFinished = (filledCells == 9);
+	if (!isFinished)
+		isFinished = (filledCells == 9);
+
+	if (isFinished && filledCells == 9)
+	{
+		printf("It's a tie!");
+	}
 }

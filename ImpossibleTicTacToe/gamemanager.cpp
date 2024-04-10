@@ -73,14 +73,19 @@ void GameManager::update(sf::RenderWindow &window)
 	static int nextPos = 0;
 	static SymbolSign nextSym = SYMBOL_SIGN_EMPTY;
 
-	if (isWinning(cells, (SymbolSign)players[currentPlayer].symbol, nextPos))
-	{
-		printf("%s won!", players[currentPlayer].name);
-		isFinished = true;
-	}
-
 	if (!isFinished)
 	{
+		if (nextSym != SYMBOL_SIGN_EMPTY)
+		{
+			if (isWinning(cells, (SymbolSign)players[currentPlayer].symbol, nextPos))
+			{
+				printf("%s won!", players[currentPlayer].name);
+				isFinished = true;
+			}
+
+			nextSym = SYMBOL_SIGN_EMPTY;
+		}
+
 		if (nextTurn)
 		{
 			currentPlayer = (currentPlayer + 1) % MAX_PLAYERS;
@@ -103,22 +108,22 @@ void GameManager::update(sf::RenderWindow &window)
 	// Draw the cells
 	for (int i = 0; i < 9; i++)
 	{
+		if (cells[i].mouseEntered())
+		{
+			if (cells[i].isFilled() && players[currentPlayer].type != PLAYER_HUMAN)
+				cells[i].backgroundShape.setOutlineColor(sf::Color(200, 0, 0));
+			else
+				cells[i].backgroundShape.setOutlineColor(sf::Color::White);
+
+			cells[i].backgroundShape.setOutlineThickness(2.5f);
+		}
+		else
+		{
+			cells[i].backgroundShape.setOutlineThickness(0.f);
+		}
+
 		if (players[currentPlayer].type == PLAYER_HUMAN)
 		{
-			if (cells[i].mouseEntered())
-			{
-				if (cells[i].isFilled())
-					cells[i].backgroundShape.setOutlineColor(sf::Color(200, 0, 0));
-				else
-					cells[i].backgroundShape.setOutlineColor(sf::Color::White);
-
-				cells[i].backgroundShape.setOutlineThickness(2.5f);
-			}
-			else
-			{
-				cells[i].backgroundShape.setOutlineThickness(0.f);
-			}
-
 			if (cells[i].mouseClicked() && !cells[i].isFilled() && !isFinished)
 			{
 				cells[i].insertSymbol(players[currentPlayer].symbol);

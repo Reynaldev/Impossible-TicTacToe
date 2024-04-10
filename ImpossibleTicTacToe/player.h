@@ -13,7 +13,7 @@ class Player
 public:
 	PlayerTypeFlag type;
 	SymbolSignFlag symbol;
-	char name[8];
+	std::string name;
 
 	int scoreWin = 0;
 	int scoreLose = 0;
@@ -21,6 +21,6 @@ public:
 	/* Default constructor. Use Player(const char *username, SymbolTypeFlag symbol, PlayerTypeFlag type) instead */
 	Player() {}
 
-	Player(const char *username, PlayerTypeFlag type);
+	Player(const std::string &name, PlayerTypeFlag type);
 };
 

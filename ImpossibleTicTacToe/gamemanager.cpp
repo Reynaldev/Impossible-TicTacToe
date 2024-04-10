@@ -1,5 +1,6 @@
 #include "gamemanager.h"
 #include "ai.h"
+#include "modal.h"
 
 GameManager::GameManager(Player *playerOne, Player *playerTwo, const sf::RenderWindow &window)
 {
@@ -148,6 +149,10 @@ void GameManager::update(sf::RenderWindow &window)
 
 	if (!isFinished)
 		isFinished = (filledCells == 9);
+	else
+	{
+		Modal::show(window, "Win modal", players[currentPlayer].name + " win!");
+	}
 
 	if (isFinished && filledCells == 9)
 	{

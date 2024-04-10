@@ -33,6 +33,9 @@
     <ClCompile Include="gamemanager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="modal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="crossshape.h">
@@ -51,6 +54,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ai.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="modal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,7 +1,7 @@
 #include "player.h"
 
-Player::Player(const char *username, PlayerTypeFlag type)
+Player::Player(const std::string &name, PlayerTypeFlag type)
 {
+	this->name = name;
 	this->type = type;
-	memcpy_s(this->name, sizeof(this->name), username, sizeof(char) * 8);
 }

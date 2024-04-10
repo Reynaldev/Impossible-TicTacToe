@@ -4,6 +4,12 @@
 
 namespace Modal
 {
+	enum ModalButton
+	{
+		MODAL_NO_BUTTON = 0,
+		MODAL_OK_BUTTON = 1 << 0
+	};
+
 	struct Modal
 	{
 		bool modalActive;
@@ -11,46 +17,53 @@ namespace Modal
 		sf::Font mFont;
 		sf::Text mText;
 		std::string mTitle;
-	} static mModal;
 
-	static void show(sf::RenderWindow &window, const std::string &title, const std::string &text)
-	{
-		static Modal *modal;
-
-		if (!modal)
+		Modal()
 		{
-			printf("Modal initialized!\n");
-
-			modal = &mModal;
-
-			modal->modalActive = true;
-
-			if (!modal->mFont.loadFromFile("assets/fonts/Minecraft.ttf"))
+			if (!mFont.loadFromFile("assets/fonts/Minecraft.ttf"))
 			{
 				printf("Cannot load the font file for modal\n");
 				return;
 			}
 
-			modal->mText.setFont(modal->mFont);
-			modal->mText.setString(text);
-			modal->mText.setCharacterSize(18);
+			mText.setFont(modal.mFont);
+			mText.setCharacterSize(18);
 
-			modal->mShape.setSize(sf::Vector2f(250.f, modal->mText.getLocalBounds().height + 10.f));
-			modal->mShape.setPosition(((sf::Vector2f)window.getSize() - modal->mShape.getSize()) / 2.f);
-			modal->mShape.setFillColor(sf::Color(200, 200, 200));
-			modal->mShape.setOutlineThickness(5.f);
-			modal->mShape.setOutlineColor(sf::Color::White);
+			mShape.setFillColor(sf::Color(200, 200, 200));
+			mShape.setOutlineThickness(5.f);
+			mShape.setOutlineColor(sf::Color::White);
+		}
+	} static modal;
 
-			modal->mText.setPosition(
-				sf::Vector2f(
-					((modal->mShape.getPosition().x + modal->mShape.getSize().x) / 2.f) + modal->mText.getLocalBounds().width,
-					modal->mShape.getPosition().y
-				)
-			);
+	static void show(sf::RenderWindow &window, const std::string &title, const std::string &text)
+	{
+		modal.modalActive = true;
+
+		modal.mText.setString(text);
+
+		sf::Vector2f shapeSize(250.f, modal.mText.getLocalBounds().height + 10.f);
+
+		if ((modal.mText.getLocalBounds().width > shapeSize.x) || (modal.mText.getLocalBounds().height > shapeSize.y))
+		{
+			shapeSize = modal.mText.getLocalBounds().getSize();
+
+			// Padding
+			shapeSize.x += 10.f;
+			shapeSize.y += 10.f;
 		}
 
-		window.draw(modal->mShape);
-		window.draw(modal->mText);
+		modal.mShape.setSize(shapeSize);
+		modal.mShape.setPosition(((sf::Vector2f)window.getSize() - modal.mShape.getSize()) / 2.f);
+
+		modal.mText.setPosition(
+			sf::Vector2f(
+				((modal.mShape.getPosition().x + modal.mShape.getSize().x) / 2.f) + modal.mText.getLocalBounds().width,
+				modal.mShape.getPosition().y
+			)
+		);
+
+		window.draw(modal.mShape);
+		window.draw(modal.mText);
 	}
 
 };

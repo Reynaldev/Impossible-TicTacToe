@@ -137,7 +137,6 @@
     <ClCompile Include="crossshape.cpp" />
     <ClCompile Include="gamemanager.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="modal.cpp" />
     <ClCompile Include="player.cpp" />
   </ItemGroup>
   <ItemGroup>

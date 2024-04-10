@@ -74,6 +74,9 @@ void GameManager::update(sf::RenderWindow &window)
 	static int nextPos = 0;
 	static SymbolSign nextSym = SYMBOL_SIGN_EMPTY;
 
+	// To keep track of filled cells
+	static int filledCells = 0;
+
 	if (!isFinished)
 	{
 		if (nextSym != SYMBOL_SIGN_EMPTY)
@@ -82,12 +85,17 @@ void GameManager::update(sf::RenderWindow &window)
 			{
 				players[currentPlayer].scoreWin++;
 				players[(currentPlayer + 1) % 2].scoreLose++;
-				
+
 				isFinished = true;
 			}
 
 			nextSym = SYMBOL_SIGN_EMPTY;
 		}
+	}
+
+	if (!isFinished)
+	{
+		filledCells = 0;
 
 		if (nextTurn)
 		{
@@ -105,8 +113,6 @@ void GameManager::update(sf::RenderWindow &window)
 		}
 	}
 
-	// To keep track of filled cells
-	int filledCells = 0;
 
 	// Draw the cells
 	for (int i = 0; i < 9; i++)
@@ -149,13 +155,13 @@ void GameManager::update(sf::RenderWindow &window)
 
 	if (!isFinished)
 		isFinished = (filledCells == 9);
-	else
-	{
-		Modal::show(window, "Win modal", players[currentPlayer].name + " win!");
-	}
 
 	if (isFinished && filledCells == 9)
 	{
-		printf("It's a tie!");
+		Modal::show(window, "End", "It's a tie!");
+	}
+	else if (isFinished && filledCells != 9)
+	{
+		Modal::show(window, "End", players[currentPlayer].name + " win!");
 	}
 }

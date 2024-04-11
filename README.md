@@ -2,9 +2,9 @@
 A simple TicTacToe game from my [previous TicTacToe game](https://github.com/Reynaldev/TicTaC) but with GUI (I used SFML to create it).
 
 # Table of Contents
-- [How to Play](https://github.com/Reynaldev/Impossible-TicTacToe/edit/master/README.md#how-to-play)
-- [Compiling the Source Code](https://github.com/Reynaldev/Impossible-TicTacToe/edit/master/README.md#compiling-the-source-code)
-     - [Visual Studio](https://github.com/Reynaldev/Impossible-TicTacToe/edit/master/README.md#visual-studio)
+- [How to Play](https://github.com/Reynaldev/Impossible-TicTacToe/README.md#how-to-play)
+- [Compiling the Source Code](https://github.com/Reynaldev/Impossible-TicTacToe/README.md#compiling-the-source-code)
+     - [Visual Studio](https://github.com/Reynaldev/Impossible-TicTacToe/README.md#visual-studio)
 
 ## How to play
 - `LMB` put a symbol

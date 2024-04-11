@@ -1,8 +1,8 @@
 #pragma once
 
 #include <iostream>
-#include <array>
 #include <string>
+#include <ctime>
 
 #include <SFML/Graphics.hpp>
 

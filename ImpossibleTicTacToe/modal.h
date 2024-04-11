@@ -37,30 +37,33 @@ namespace Modal
 
 	static void show(sf::RenderWindow &window, const std::string &title, const std::string &text)
 	{
-		modal.modalActive = true;
-
-		modal.mText.setString(text);
-
-		sf::Vector2f shapeSize(250.f, modal.mText.getLocalBounds().height + 10.f);
-
-		if ((modal.mText.getLocalBounds().width > shapeSize.x) || (modal.mText.getLocalBounds().height > shapeSize.y))
+		if (title != modal.mTitle)
 		{
-			shapeSize = modal.mText.getLocalBounds().getSize();
+			modal.modalActive = true;
 
-			// Padding
-			shapeSize.x += 10.f;
-			shapeSize.y += 10.f;
+			modal.mText.setString(text);
+
+			sf::Vector2f shapeSize(250.f, modal.mText.getLocalBounds().height + 10.f);
+
+			if ((modal.mText.getLocalBounds().width > shapeSize.x) || (modal.mText.getLocalBounds().height > shapeSize.y))
+			{
+				shapeSize = modal.mText.getLocalBounds().getSize();
+
+				// Padding
+				shapeSize.x += 10.f;
+				shapeSize.y += 10.f;
+			}
+
+			modal.mShape.setSize(shapeSize);
+			modal.mShape.setPosition(((sf::Vector2f)window.getSize() - modal.mShape.getSize()) / 2.f);
+
+			modal.mText.setPosition(
+				sf::Vector2f(
+					((modal.mShape.getPosition().x + modal.mShape.getSize().x) / 2.f) + modal.mText.getLocalBounds().width,
+					modal.mShape.getPosition().y
+				)
+			);
 		}
-
-		modal.mShape.setSize(shapeSize);
-		modal.mShape.setPosition(((sf::Vector2f)window.getSize() - modal.mShape.getSize()) / 2.f);
-
-		modal.mText.setPosition(
-			sf::Vector2f(
-				((modal.mShape.getPosition().x + modal.mShape.getSize().x) / 2.f) + modal.mText.getLocalBounds().width,
-				modal.mShape.getPosition().y
-			)
-		);
 
 		window.draw(modal.mShape);
 		window.draw(modal.mText);

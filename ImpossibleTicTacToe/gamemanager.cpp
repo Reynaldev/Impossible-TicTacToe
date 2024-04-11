@@ -106,10 +106,23 @@ void GameManager::update(sf::RenderWindow &window)
 		// AI
 		if ((players[currentPlayer].type == PLAYER_AI))
 		{
-			solve(cells, (SymbolSign)players[currentPlayer].symbol, (SymbolSign)(players[(currentPlayer + 1) % 2].symbol), nextPos);
-			nextSym = (SymbolSign)players[currentPlayer].symbol;
+			// Virtual wait
+			static clock_t t1 = 0;
+			static clock_t t2 = 0;
+			
+			clock_t d = t1 - t2;
 
-			nextTurn = true;
+			if (d > 3000)
+			{
+				solve(cells, (SymbolSign)players[currentPlayer].symbol, (SymbolSign)(players[(currentPlayer + 1) % 2].symbol), nextPos);
+				nextSym = (SymbolSign)players[currentPlayer].symbol;
+
+				nextTurn = true;
+
+				t2 = t1;
+			}
+
+			t1 = clock();
 		}
 	}
 

@@ -26,7 +26,7 @@ namespace Modal
 				return;
 			}
 
-			mText.setFont(modal.mFont);
+			mText.setFont(this->mFont);
 			mText.setCharacterSize(18);
 
 			mShape.setFillColor(sf::Color(200, 200, 200));
